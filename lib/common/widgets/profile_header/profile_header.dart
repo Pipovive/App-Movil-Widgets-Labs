@@ -4,11 +4,13 @@ import 'package:widget_lab/common/constants/app_strings.dart';
 class ProfileHeader extends StatelessWidget {
   final String avatarUrl;
   final void Function(String option) onMenuSelected;
+  final VoidCallback onAvatarTap;
 
   const ProfileHeader({
     super.key,
     required this.avatarUrl,
     required this.onMenuSelected,
+    required this.onAvatarTap,
   });
 
   @override
@@ -19,9 +21,12 @@ class ProfileHeader extends StatelessWidget {
         CircleAvatar(
           radius: 26, // un poco más grande
           backgroundColor: const Color(0xFF727272), // borde
-          child: CircleAvatar(
-            radius: 24,
-            backgroundImage: NetworkImage(avatarUrl),
+          child: InkWell(
+            onTap: onAvatarTap,
+            child: CircleAvatar(
+              radius: 24,
+              backgroundImage: NetworkImage(avatarUrl),
+            ),
           ),
         ),
         PopupMenuButton<String>(

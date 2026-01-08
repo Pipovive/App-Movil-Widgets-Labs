@@ -20,96 +20,144 @@ class HomeScreen extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: ProfileHeader(
+            onAvatarTap: () {
+              Navigator.pushNamed(context, AppRoutes.profileRoute);
+            },
             avatarUrl: 'https://i.pravatar.cc/200',
             onMenuSelected: (option) {
               if (option == "settings") {
                 Navigator.pushNamed(context, AppRoutes.settingsRoute);
-              } else if (option == "perfil") {}
+              } else if (option == "profile") {
+                Navigator.pushNamed(context, AppRoutes.profileRoute);
+              }
             },
           ),
         ),
         backgroundColor: AppColorStyles.backgroundColor,
+        elevation: 0, // Sin sombra para diseño más limpio
       ),
-
       backgroundColor: AppColorStyles.backgroundColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(
-            top: 8.0,
-            left: 16,
-            right: 16,
-            bottom: 8,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 16, bottom: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      AppStrings.menuWidgets,
-                      style: AppTextStyles.titleText,
-                    ),
-                    Text(
-                      AppStrings.categorizadoPor,
-                      style: AppTextStyles.bodyText,
-                    ),
-                  ],
-                ),
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ButtonImageComponent(
-                    title: AppStrings.avatar,
-                    routeName: AppRoutes.avatarRoute,
-                  ),
-                  ButtonImageComponent(
-                    title: AppStrings.layout,
-                    routeName: AppRoutes.layoutRoute,
-                  ),
-                  ButtonImageComponent(
-                    title: AppStrings.input,
-                    routeName: AppRoutes.inputRoute,
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 16),
-
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  AppStrings.componentesPorImagenes,
-                  style: AppTextStyles.titleText,
-                ),
+              // Sección de encabezado
+              _buildSectionHeader(
+                title: AppStrings.menuWidgets,
+                subtitle: AppStrings.daleClick,
               ),
 
               const SizedBox(height: 12),
 
-              SizedBox(
-                height: 600,
-                child: MasonryGridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  itemCount: AppListWidgets.listWidgets.length,
-                  itemBuilder: (context, index) {
-                    return ContainerWidgetsComponent(
-                      bodyContainer: AppListWidgets.listWidgets[index]['description'].toString(),
-                      urlImage: 'https://picsum.photos/seed/button/200/200',
-                      titleContainer: AppListWidgets.listWidgets[index]['title'].toString(),
-                    );
-                  },
-                ),
+              // Botones de categorías
+              _buildCategoryButtons(),
+              Divider(height: 20),
+              const SizedBox(height: 24),
+
+              // Título de componentes
+              Text(
+                AppStrings.utilizandoLibreria,
+                style: AppTextStyles.titleText,
               ),
+
+              const SizedBox(height: 16),
+
+              // Grid de widgets con altura dinámica
+              _buildWidgetsGrid(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  // Widget para el encabezado de sección
+  Widget _buildSectionHeader({
+    required String title,
+    required String subtitle,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(title, style: AppTextStyles.titleText),
+          Text(
+            subtitle,
+            style: AppTextStyles.bodyText.copyWith(
+              fontSize: 12,
+              color: Colors.grey[600],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget para los botones de categorías
+  Widget _buildCategoryButtons() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ButtonImageComponent(
+            title: AppStrings.avatar,
+            routeName: AppRoutes.avatarRoute,
+          ),
+
+          const SizedBox(width: 12),
+
+          ButtonImageComponent(
+            title: AppStrings.layout,
+            routeName: AppRoutes.layoutRoute,
+          ),
+
+          const SizedBox(width: 12),
+
+          ButtonImageComponent(
+            title: AppStrings.input,
+            routeName: AppRoutes.inputRoute,
+          ),
+
+          const SizedBox(width: 12),
+
+          ButtonImageComponent(
+            title: AppStrings.scrollchild,
+            routeName: AppRoutes.scrollChildRoute,
+          ),
+
+          const SizedBox(width: 12),
+
+          ButtonImageComponent(
+            title: AppStrings.toogle,
+            routeName: AppRoutes.toogleRoute,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget para el grid de widgets con altura dinámica
+  Widget _buildWidgetsGrid() {
+    return MasonryGridView.count(
+      physics: const NeverScrollableScrollPhysics(), // Evita scroll interno
+      shrinkWrap: true,
+      crossAxisCount: 2,
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
+      itemCount: AppListWidgets.listWidgets.length,
+      itemBuilder: (context, index) {
+        final widget = AppListWidgets.listWidgets[index];
+        return ContainerWidgetsComponent(
+          bodyContainer: widget['description'].toString(),
+          urlImage: widget['image'].toString(),
+          titleContainer: widget['title'].toString(),
+        );
+      },
     );
   }
 }

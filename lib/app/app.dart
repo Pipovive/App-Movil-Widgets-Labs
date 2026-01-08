@@ -3,7 +3,10 @@ import 'package:widget_lab/home/avatar_screen.dart';
 import 'package:widget_lab/home/home_screen.dart';
 import 'package:widget_lab/home/input_screen.dart';
 import 'package:widget_lab/home/layout_screen.dart';
+import 'package:widget_lab/home/profile_screen.dart';
+import 'package:widget_lab/home/scroll_child_screen.dart';
 import 'package:widget_lab/home/settings_screen.dart';
+import 'package:widget_lab/home/toogle_screen.dart';
 import 'package:widget_lab/routes/app_routes.dart';
 
 class App extends StatelessWidget {
@@ -17,7 +20,10 @@ class App extends StatelessWidget {
         AppRoutes.avatarRoute: (context) => AvatarScreen(),
         AppRoutes.inputRoute: (context) => InputScreen(),
         AppRoutes.layoutRoute: (context) => LayoutScreen(),
-        AppRoutes.settingsRoute: (context) => SettingsScreen()
+        AppRoutes.settingsRoute: (context) => SettingsScreen(),
+        AppRoutes.profileRoute: (context) => ProfileScreen(),
+        AppRoutes.scrollChildRoute: (context) => ScrollChildScreen(),
+        AppRoutes.toogleRoute: (context) => ToggleScreen(),
       },
       title: 'Laboratorio de Widgets',
       debugShowCheckedModeBanner: false,
